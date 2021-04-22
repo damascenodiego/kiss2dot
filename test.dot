@@ -1,0 +1,29 @@
+digraph g {
+	graph [name=g];
+	node [label="\N"];
+	"Off@C" -> "Off@C"	 [label="switch()@S/nothing"];
+	"Off@C" -> "Radio@P"	 [label="switchOnOff()@S/enableP"];
+	"Radio@P" -> "Off@C"	 [label="switchOnOff()@S/off"];
+	"Radio@P" -> "TMCActivated@TRAF"	 [label="TMCEvent()@C/disableP"];
+	"Radio@P" -> "Cassette@(and CASS (not CD))"	 [label="switch()@CASS/cass"];
+	"Radio@P" -> "CD@(and CD (not CASS))"	 [label="switch()@CD/cd"];
+	"TMCActivated@TRAF" -> "Off@C"	 [label="switchOnOff()@S/off"];
+	"TMCActivated@TRAF" -> "Radio@P"	 [label="TMCFinished()@C/enableP"];
+	"TMCActivated@TRAF" -> "TMCActivated@TRAF"	 [label="switch()@S/beep"];
+	"Cassette@(and CASS (not CD))" -> "Off@C"	 [label="switchOnOff()@S/off"];
+	"Cassette@(and CASS (not CD))" -> "Radio@P"	 [label="switch()@(not USB)/radio"];
+	"Cassette@(and CASS (not CD))" -> "TMCActivated@TRAF"	 [label="TMCEvent()@C/disableP"];
+	"Cassette@(and CASS (not CD))" -> "USB@USB"	 [label="switch()@USB/usb"];
+	"CD@(and CD (not CASS))" -> "Off@C"	 [label="switchOnOff()@S/off"];
+	"CD@(and CD (not CASS))" -> "Radio@P"	 [label="switch()@(not USB)/radio"];
+	"CD@(and CD (not CASS))" -> "TMCActivated@TRAF"	 [label="TMCEvent()@C/disableP"];
+	"CD@(and CD (not CASS))" -> "USB@USB"	 [label="switch()@USB/usb"];
+	"USB@USB" -> "Off@C"	 [label="switchOnOff()@S/off"];
+	"USB@USB" -> "Radio@P"	 [label="switch()@S/radio"];
+	"USB@USB" -> "TMCActivated@TRAF"	 [label="TMCEvent()@C/disableP"];
+	__start0	 [height=0,
+		label="",
+		shape=none,
+		width=0];
+	__start0 -> "Off@C";
+}
